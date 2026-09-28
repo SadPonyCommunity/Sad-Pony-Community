@@ -61,7 +61,6 @@
             animation: fadeCycle 18s infinite;
         }
 
-        /* 6 картинок × 3 секунды = 18 секунд полный цикл */
         .pony-animation img:nth-child(1) { animation-delay: 0s; }
         .pony-animation img:nth-child(2) { animation-delay: 3s; }
         .pony-animation img:nth-child(3) { animation-delay: 6s; }
@@ -69,7 +68,6 @@
         .pony-animation img:nth-child(5) { animation-delay: 12s; }
         .pony-animation img:nth-child(6) { animation-delay: 15s; }
 
-        /* Плавное появление и исчезновение */
         @keyframes fadeCycle {
             0%   { opacity: 0; }
             5%   { opacity: 1; }
@@ -78,10 +76,49 @@
             100% { opacity: 0; }
         }
 
-        /* Покачивание всей группы */
         @keyframes sway {
             0%, 100% { transform: rotate(-3deg); }
             50%      { transform: rotate(3deg); }
+        }
+
+        /* === ВИДЕО-ПЛЕЙЛИСТ === */
+        .video-player {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 30px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background: #1a1525;
+        }
+
+        .video-player video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .sound-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(5px);
+            z-index: 10;
+            font-family: inherit;
+        }
+
+        .sound-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.05);
         }
 
         h1 {
@@ -168,6 +205,26 @@
         <h1>Печальная пони</h1>
         <p class="tagline">Грустить вместе — не так одиноко.<br>Уютное сообщество для тех, кто устал.</p>
 
+        <!-- ВИДЕО-ПЛЕЙЛИСТ (13 видео) -->
+        <div class="video-player">
+            <video id="playlist" playsinline autoplay muted>
+                <source src="video1.mp4" type="video/mp4">
+                <source src="video2.mp4" type="video/mp4">
+                <source src="video3.mp4" type="video/mp4">
+                <source src="video4.mp4" type="video/mp4">
+                <source src="video5.mp4" type="video/mp4">
+                <source src="video6.mp4" type="video/mp4">
+                <source src="video7.mp4" type="video/mp4">
+                <source src="video8.mp4" type="video/mp4">
+                <source src="video9.mp4" type="video/mp4">
+                <source src="video10.mp4" type="video/mp4">
+                <source src="video11.mp4" type="video/mp4">
+                <source src="video12.mp4" type="video/mp4">
+                <source src="video13.mp4" type="video/mp4">
+            </video>
+            <button class="sound-btn" onclick="toggleSound()" id="soundBtn">🔇 Включить звук</button>
+        </div>
+
         <div class="links">
             <a href="https://t.me/ВАШ_КАНАЛ" class="link-btn" target="_blank" rel="noopener">
                 <span class="icon">✈️</span>
@@ -188,5 +245,41 @@
             Сделано с грустью и любовью
         </p>
     </div>
+
+    <script>
+        // === ВИДЕО-ПЛЕЙЛИСТ ===
+        const video = document.getElementById('playlist');
+        const sources = video.querySelectorAll('source');
+        let currentVideo = 0;
+
+        // Загружаем видео по индексу
+        function loadVideo(index) {
+            video.src = sources[index].src;
+            video.load();
+            video.play().catch(e => console.log('Автовоспроизведение заблокировано:', e));
+        }
+
+        // Когда видео закончилось — переключаем на следующее
+        video.addEventListener('ended', () => {
+            currentVideo = (currentVideo + 1) % sources.length;
+            loadVideo(currentVideo);
+        });
+
+        // Инициализация
+        loadVideo(0);
+
+        // === ЗВУК ===
+        let soundOn = false;
+        const soundBtn = document.getElementById('soundBtn');
+
+        function toggleSound() {
+            soundOn = !soundOn;
+            video.muted = !soundOn;
+            soundBtn.textContent = soundOn ? '🔊 Выключить звук' : '🔇 Включить звук';
+            if (soundOn) {
+                video.play().catch(e => console.log(e));
+            }
+        }
+    </script>
 </body>
 </html>
