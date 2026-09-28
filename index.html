@@ -81,6 +81,137 @@
             50%      { transform: rotate(3deg); }
         }
 
+        /* === ЗАГОЛОВОК С КЛИКАБЕЛЬНЫМ ЭМОДЗИ === */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #c9b8e8, #9d8ec4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .rose-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+            padding: 0;
+            line-height: 1;
+        }
+
+        .rose-btn:hover {
+            transform: scale(1.2) rotate(-10deg);
+        }
+
+        .rose-btn:active {
+            transform: scale(0.95);
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: #b8aed0;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* === МОДАЛЬНОЕ ОКНО СО СТИХОМ === */
+        .poem-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 15, 30, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .poem-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .poem-box {
+            background: linear-gradient(160deg, #3a2f4c 0%, #2b2436 100%);
+            border: 1px solid rgba(201, 184, 232, 0.3);
+            border-radius: 20px;
+            padding: 40px 35px;
+            max-width: 550px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+
+        .poem-box h2 {
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #c9b8e8;
+            font-style: italic;
+        }
+
+        .poem-box pre {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #d8d0e8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            text-align: center;
+            margin: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e8e4f0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
         /* === ВИДЕО-ПЛЕЙЛИСТ === */
         .video-player {
             position: relative;
@@ -119,25 +250,6 @@
         .sound-btn:hover {
             background: rgba(0, 0, 0, 0.9);
             transform: scale(1.05);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            background: linear-gradient(90deg, #c9b8e8, #9d8ec4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .tagline {
-            font-size: 1.1rem;
-            color: #b8aed0;
-            margin-bottom: 40px;
-            line-height: 1.6;
-            font-style: italic;
         }
 
         .links {
@@ -186,6 +298,9 @@
             .pony-animation { width: 140px; height: 140px; }
             .container { padding: 35px 20px; }
             .tagline { font-size: 1rem; }
+            .rose-btn { font-size: 1.6rem; }
+            .poem-box { padding: 30px 20px; }
+            .poem-box pre { font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -202,10 +317,15 @@
             <img src="pony6.png" alt="Печальная пони">
         </div>
 
-        <h1>Печальная пони</h1>
+        <!-- Заголовок с кликабельным эмодзи -->
+        <h1>
+            Печальная пони
+            <button class="rose-btn" onclick="openPoem()" title="Прочитать стих">🥀</button>
+        </h1>
+
         <p class="tagline">Грустить вместе — не так одиноко.<br>Уютное сообщество для тех, кто устал.</p>
 
-        <!-- ВИДЕО-ПЛЕЙЛИСТ (13 видео) -->
+        <!-- ВИДЕО-ПЛЕЙЛИСТ (31 видео) -->
         <div class="video-player">
             <video id="playlist" playsinline autoplay muted>
                 <source src="video1.mp4" type="video/mp4">
@@ -221,6 +341,24 @@
                 <source src="video11.mp4" type="video/mp4">
                 <source src="video12.mp4" type="video/mp4">
                 <source src="video13.mp4" type="video/mp4">
+                <source src="video14.mp4" type="video/mp4">
+                <source src="video15.mp4" type="video/mp4">
+                <source src="video16.mp4" type="video/mp4">
+                <source src="video17.mp4" type="video/mp4">
+                <source src="video18.mp4" type="video/mp4">
+                <source src="video19.mp4" type="video/mp4">
+                <source src="video20.mp4" type="video/mp4">
+                <source src="video21.mp4" type="video/mp4">
+                <source src="video22.mp4" type="video/mp4">
+                <source src="video23.mp4" type="video/mp4">
+                <source src="video24.mp4" type="video/mp4">
+                <source src="video25.mp4" type="video/mp4">
+                <source src="video26.mp4" type="video/mp4">
+                <source src="video27.mp4" type="video/mp4">
+                <source src="video28.mp4" type="video/mp4">
+                <source src="video29.mp4" type="video/mp4">
+                <source src="video30.mp4" type="video/mp4">
+                <source src="video31.mp4" type="video/mp4">
             </video>
             <button class="sound-btn" onclick="toggleSound()" id="soundBtn">🔇 Включить звук</button>
         </div>
@@ -246,26 +384,67 @@
         </p>
     </div>
 
+    <!-- МОДАЛЬНОЕ ОКНО СО СТИХОМ -->
+    <div class="poem-overlay" id="poemOverlay" onclick="closePoemOnOverlay(event)">
+        <div class="poem-box">
+            <button class="close-btn" onclick="closePoem()">✕</button>
+            <h2>«Печальная пони»</h2>
+            <pre>Спустился ангел ко мне с небес,
+Хотела помощи она.
+И вот моя душа раскрылась к ней,
+Я счастлив с нею был, как ни с кем другим.
+Большую радость принесла,
+И печаль моя ушла.
+И она открылась мне,
+Узнал я многое о ней:
+Её тяжёлую судьбу,
+Её печаль и радость.
+
+Была мне дорога она,
+Увидеть её улыбку хотелось мне.
+Старался делать я добро,
+Только счастья хотел я для неё.
+
+Но жизнь такая штука —
+Ничего вечного в ней нет.
+И вот опять ко мне печаль пришла:
+Не хочет видеть она меня,
+Не нужен я, и мне печально.
+Надежду ждал я долго,
+Пытался поговорить я с ней,
+Говорил: «Прости меня, давай общаться».
+
+Время шло тяжело и быстро,
+И вдруг случилось чудо —
+Заговорила со мной она,
+Словно ничего и не случилось.
+
+И вот ушла тоска моя, печальная такая,
+Боль прошла, невыносимая такая,
+С души убрался крест, такой тяжёлый.
+Успокоила она меня,
+Уснул я снова лёгким сном.
+Не забывая о тебе...</pre>
+        </div>
+    </div>
+
     <script>
         // === ВИДЕО-ПЛЕЙЛИСТ ===
         const video = document.getElementById('playlist');
         const sources = video.querySelectorAll('source');
         let currentVideo = 0;
 
-        // Загружаем видео по индексу
         function loadVideo(index) {
             video.src = sources[index].src;
             video.load();
             video.play().catch(e => console.log('Автовоспроизведение заблокировано:', e));
         }
 
-        // Когда видео закончилось — переключаем на следующее
         video.addEventListener('ended', () => {
             currentVideo = (currentVideo + 1) % sources.length;
             loadVideo(currentVideo);
         });
 
-        // Инициализация
         loadVideo(0);
 
         // === ЗВУК ===
@@ -280,6 +459,31 @@
                 video.play().catch(e => console.log(e));
             }
         }
+
+        // === СТИХ ===
+        function openPoem() {
+            document.getElementById('poemOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePoem() {
+            document.getElementById('poemOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function closePoemOnOverlay(event) {
+            // Закрываем только если кликнули на фон, а не на само окно
+            if (event.target.id === 'poemOverlay') {
+                closePoem();
+            }
+        }
+
+        // Закрытие по Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePoem();
+            }
+        });
     </script>
 </body>
 </html>
