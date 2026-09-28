@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Печальная пони — сообщество</title>
     <meta name="description" content="Сообщество «Печальная пони» — место, где грустить вместе не так одиноко.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥺</text></svg>">
+
+    <!-- Иконка сайта (favicon) -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
     <style>
         * {
             margin: 0;
@@ -36,7 +40,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         }
 
-        /* === АНИМАЦИЯ СМЕНЫ КАРТИНОК === */
+        /* === АНИМАЦИЯ: каждая пони по 3 секунды === */
         .pony-animation {
             width: 180px;
             height: 180px;
@@ -54,23 +58,23 @@
             height: 100%;
             object-fit: contain;
             opacity: 0;
-            animation: fadeCycle 12s infinite;
+            animation: fadeCycle 18s infinite;
         }
 
-        /* Каждая картинка появляется на 2 секунды */
+        /* 6 картинок × 3 секунды = 18 секунд полный цикл */
         .pony-animation img:nth-child(1) { animation-delay: 0s; }
-        .pony-animation img:nth-child(2) { animation-delay: 2s; }
-        .pony-animation img:nth-child(3) { animation-delay: 4s; }
-        .pony-animation img:nth-child(4) { animation-delay: 6s; }
-        .pony-animation img:nth-child(5) { animation-delay: 8s; }
-        .pony-animation img:nth-child(6) { animation-delay: 10s; }
+        .pony-animation img:nth-child(2) { animation-delay: 3s; }
+        .pony-animation img:nth-child(3) { animation-delay: 6s; }
+        .pony-animation img:nth-child(4) { animation-delay: 9s; }
+        .pony-animation img:nth-child(5) { animation-delay: 12s; }
+        .pony-animation img:nth-child(6) { animation-delay: 15s; }
 
         /* Плавное появление и исчезновение */
         @keyframes fadeCycle {
             0%   { opacity: 0; }
-            8%   { opacity: 1; }
-            17%  { opacity: 1; }
-            25%  { opacity: 0; }
+            5%   { opacity: 1; }
+            14%  { opacity: 1; }
+            19%  { opacity: 0; }
             100% { opacity: 0; }
         }
 
